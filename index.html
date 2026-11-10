@@ -33,8 +33,8 @@ img{max-width:100%;display:block}
 
 /* hero */
 .hero{min-height:100vh;background:var(--ink);color:var(--paper);position:relative;overflow:hidden;display:flex;align-items:center;padding:140px 0 120px}
-.hero h1{font-size:clamp(56px,10vw,150px);font-weight:900;line-height:.98;letter-spacing:-2px}
-.hero h1 .ln{display:block;overflow:hidden}
+.hero h1{font-size:clamp(30px,6.2vw,100px);white-space:nowrap;font-weight:900;line-height:1.25;letter-spacing:-1px}
+.hero h1 .ln{display:block;overflow:hidden;padding:.08em 0 .22em;margin-bottom:-.2em}
 .hero h1 .ln span{display:inline-block;transform:translateY(110%);animation:rise 1s cubic-bezier(.2,.8,.2,1) forwards}
 .hero h1 em{font-style:normal;color:var(--lime)}
 @keyframes rise{to{transform:none}}
@@ -67,20 +67,20 @@ section{padding:130px 0;position:relative}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:13px;letter-spacing:3px;font-weight:700;color:var(--mute);direction:ltr}
 .dark .eyebrow{color:#A3A39C}
 .eyebrow::before{content:"";width:28px;height:2px;background:var(--lime)}
-.h2{font-size:clamp(38px,5.4vw,76px);font-weight:900;line-height:1.08;margin:14px 0 20px;letter-spacing:-1px}
-.h2 em{font-style:normal;background:linear-gradient(transparent 62%,var(--lime) 62%)}
-.dark .h2 em{background:none;color:var(--lime)}
+.h2{font-size:clamp(38px,5.4vw,76px);font-weight:900;line-height:1.4;margin:14px 0 20px;letter-spacing:-1px}
+.h2 em{font-style:normal;text-decoration:underline;text-decoration-color:var(--lime);text-decoration-thickness:.16em;text-underline-offset:.32em;text-decoration-skip-ink:none}
+.dark .h2 em{text-decoration:none;color:var(--lime)}
 .lead{font-size:20px;color:var(--mute);max-width:720px}
 .dark .lead{color:#C9C9C2}
 .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;flex-wrap:wrap;margin-bottom:56px}
 
 /* about */
-.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:center}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.about-grid{display:grid;grid-template-columns:1fr;gap:60px;align-items:center;max-width:860px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:56px}
 .stat{background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px}
 .stat:nth-child(2){background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .stat:nth-child(3){background:var(--lime);border-color:var(--lime)}
-.stat b{display:block;font-size:56px;font-weight:900;line-height:1}
+.stat b{display:block;font-size:56px;font-weight:900;line-height:1.1;direction:ltr;text-align:right}
 .stat span{font-weight:700;color:var(--mute)}
 .stat:nth-child(2) span{color:#A3A39C}.stat:nth-child(3) span{color:var(--ink)}
 .vm{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:80px}
@@ -103,6 +103,10 @@ section{padding:130px 0;position:relative}
 .svc-card .ic svg{width:28px;height:28px}
 .svc-card h3{font-size:25px;font-weight:900;margin-bottom:6px}
 .svc-card p{color:#A3A39C}
+.svc-card.wide-svc{grid-column:1/-1;min-height:auto;flex-direction:row;align-items:center;gap:26px}
+.svc-card.wide-svc .ic{margin:0;flex:none}
+.svc-card.wide-svc .n{position:absolute;top:20px;left:26px}
+@media(max-width:600px){.svc-card.wide-svc{flex-direction:column;align-items:flex-start}}
 .svc-card.feat{background:var(--lime);color:var(--ink);border-color:var(--lime)}
 .svc-card.feat .n{color:var(--ink)}.svc-card.feat p{color:var(--ink)}
 .svc-card.feat .ic{background:var(--ink);color:var(--lime)}
@@ -121,6 +125,8 @@ section{padding:130px 0;position:relative}
 .work .tag{display:inline-block;background:var(--lime);color:var(--ink);font-weight:700;font-size:13px;padding:3px 14px;border-radius:999px;margin-bottom:8px}
 .work h3{font-size:24px;font-weight:900;line-height:1.25}
 .work p{color:#C9C9C2;font-size:15px}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:10px;font-size:13px;font-weight:700;color:var(--paper)}
+.meta span{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,.1);padding:3px 10px;border-radius:999px}
 .work .play{position:absolute;top:22px;left:22px;width:52px;height:52px;border-radius:50%;background:rgba(245,245,240,.15);backdrop-filter:blur(6px);display:grid;place-items:center;transition:.3s}
 .work:hover .play{background:var(--lime);color:var(--ink)}
 .m1{background:radial-gradient(circle at 30% 20%,#3d4a1c,transparent 55%),linear-gradient(135deg,#1c1c1a,#2c3318)}
@@ -150,7 +156,10 @@ section{padding:130px 0;position:relative}
 .who small{display:block;color:var(--mute)}
 
 /* values */
-.vals{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.vals{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.val.first{background:var(--ink);color:var(--paper);border:0;border-radius:24px;padding:24px}
+.val.first b{-webkit-text-stroke:0;color:var(--lime)}
+.val.first p{color:#C9C9C2}
 .val{border-top:3px solid var(--ink);padding-top:20px}
 .val b{font-size:56px;font-weight:900;line-height:1;-webkit-text-stroke:2px var(--ink);color:transparent;transition:.4s}
 .val:hover b{color:var(--lime)}
@@ -190,15 +199,23 @@ form.f input:focus,form.f select:focus,form.f textarea:focus{border-color:var(--
 
 /* footer */
 footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hidden}
+.fcta{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;padding-bottom:60px;border-bottom:1px solid #2a2a28}
+.fcta h2{font-size:clamp(40px,6vw,84px);font-weight:900;line-height:1.2}
+.fcta em{font-style:normal;color:var(--lime)}
+.fgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;padding:50px 0 10px}
+.fgrid h4{color:var(--lime);font-size:14px;letter-spacing:2px;margin-bottom:12px}
+.fgrid a:not(.logo){display:block;color:#C9C9C2;padding:4px 0;transition:color .2s}
+.fgrid a:not(.logo):hover{color:var(--lime)}
+@media(max-width:700px){.fgrid{grid-template-columns:1fr}}
 .big-name{font-size:clamp(90px,22vw,320px);font-weight:900;line-height:.85;color:transparent;-webkit-text-stroke:2px #2f2f2c;text-align:center;letter-spacing:-6px;user-select:none}
 .foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px solid #2a2a28;padding-top:24px;margin-top:40px;color:#77776F;font-size:14px}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(46px);transition:opacity 1s cubic-bezier(.2,.8,.2,1),transform 1s cubic-bezier(.2,.8,.2,1)}
 .rv.in{opacity:1;transform:none}
-.cursor{position:fixed;width:16px;height:16px;border-radius:50%;background:var(--lime);pointer-events:none;z-index:100;mix-blend-mode:difference;transform:translate(-50%,-50%);transition:width .25s,height .25s;display:none}
+.cursor{position:fixed;width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);pointer-events:none;z-index:100;transform:translate(-50%,-50%);transition:width .25s,height .25s;display:none}
 @media (hover:hover){.cursor{display:block}}
-.cursor.big{width:60px;height:60px}
+.cursor.big{width:54px;height:54px;background:rgba(195,250,79,.25)}
 
 @media (max-width:980px){
  .links{display:none;position:absolute;top:66px;inset-inline:0;flex-direction:column;background:var(--ink);border-radius:24px;padding:12px}
@@ -206,8 +223,8 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
  .burger{display:block}
  .nav .cta{display:none}
  .about-grid,.contact-grid,.vm{grid-template-columns:1fr}
- .svc,.stories{grid-template-columns:1fr 1fr}
- .plans,.incl,.vals{grid-template-columns:1fr 1fr}
+ .svc,.stories,.stats{grid-template-columns:1fr 1fr}
+ .plans,.incl,.vals{grid-template-columns:1fr 1fr}.val.first{grid-column:1/-1}
  .steps{grid-template-columns:1fr 1fr;gap:40px 0}.steps::before{display:none}
  .work,.work.wide{grid-column:span 6;aspect-ratio:4/5}
 }
@@ -245,8 +262,7 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
   <div class="wrap" style="position:relative;z-index:2">
     <span class="eyebrow" style="opacity:0;animation:fade 1s .2s forwards">SOCIAL MEDIA MARKETING AGENCY</span>
     <h1 style="margin-top:18px">
-      <span class="ln"><span style="animation-delay:.15s">منبني محتوى</span></span>
-      <span class="ln"><span style="animation-delay:.3s"><em>بيشتغل.</em></span></span>
+      <span class="ln"><span style="animation-delay:.15s">كل يوم <em>شفق</em> جديد لعلامتك</span></span>
     </h1>
     <p class="sub">شفق ميديا وكالة تسويق ومحتوى. مندير صفحاتك، منغطي مؤتمراتك ومعارضك، ومنبنيلك خطة محتوى بأهداف بتنقاس. وين ما كنت، منجي لعندك.</p>
     <div class="btns">
@@ -258,8 +274,8 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
 </header>
 
 <div class="marq" aria-hidden="true"><div>
-  إدارة صفحات<b>●</b>خطط محتوى<b>●</b>تصوير درون<b>●</b>تغطية مؤتمرات<b>●</b>معارض وأجنحة<b>●</b>ريلز وفيديو<b>●</b>إعلانات ممولة<b>●</b>
-  إدارة صفحات<b>●</b>خطط محتوى<b>●</b>تصوير درون<b>●</b>تغطية مؤتمرات<b>●</b>معارض وأجنحة<b>●</b>ريلز وفيديو<b>●</b>إعلانات ممولة<b>●</b>
+  إدارة صفحات<b>●</b>خطط محتوى<b>●</b>تصوير درون<b>●</b>تغطية مؤتمرات<b>●</b>معارض وأجنحة<b>●</b>ريلز وفيديو<b>●</b>إعلانات ممولة<b>●</b>توثيق رحلات<b>●</b>
+  إدارة صفحات<b>●</b>خطط محتوى<b>●</b>تصوير درون<b>●</b>تغطية مؤتمرات<b>●</b>معارض وأجنحة<b>●</b>ريلز وفيديو<b>●</b>إعلانات ممولة<b>●</b>توثيق رحلات<b>●</b>
 </div></div>
 
 <!-- ABOUT -->
@@ -272,12 +288,12 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
         <p class="lead">شفق ميديا وكالة سوشيال ميديا ماركتنج من دمشق. مندير صفحات العلامات التجارية، منغطي المؤتمرات والإيفنتات والمعارض، ومنبني لكل عميل خطة محتوى بتمشي على استراتيجية واضحة. ما منبيع بوست ولا فيديو منفرد، منبيع خطة.</p>
         <div class="btns" style="display:flex;gap:12px;margin-top:30px"><a href="#services" class="btn dark">خدماتنا</a></div>
       </div>
-      <div class="stats rv">
-        <div class="stat"><b class="cnt" data-to="2">0</b><span>دول اشتغلنا فيها: سوريا والسعودية</span></div>
-        <div class="stat"><b>[00]+</b><span>مشروع منفّذ</span></div>
-        <div class="stat"><b>[00]+</b><span>عميل وثق فينا</span></div>
-        <div class="stat"><b>24<small style="font-size:22px">س</small></b><span>المحتوى بالمعرض بينزل بنفس اليوم</span></div>
-      </div>
+    </div>
+    <div class="stats rv">
+        <div class="stat"><b>+10</b><span>مشاريع منفّذة</span></div>
+        <div class="stat"><b>+10</b><span>عملاء وثقوا فينا</span></div>
+        <div class="stat"><b>2</b><span>سوريا والسعودية</span></div>
+        <div class="stat"><b>2026</b><span>بلّشنا من أيار، والطريق لسا بأولها</span></div>
     </div>
     <div class="vm">
       <div class="v rv"><span class="pill">الرؤية</span><h3>نكون أول اسم بيخطر على بال أي علامة بالمنطقة بدها تنعرف وتكبر.</h3></div>
@@ -300,6 +316,7 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
       <div class="svc-card rv"><span class="n">04</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div><h3>المعارض والأجنحة</h3><p>جناحك بيوصل لبرّا المعرض، لناس ما حضروا.</p></div>
       <div class="svc-card rv"><span class="n">05</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M5 19l2.5-2.5M16.5 7.5L19 5"/></svg></div><h3>تصوير درون وفيديو</h3><p>تصوير أرضي وجوي، ريلز، ومونتاج احترافي.</p></div>
       <div class="svc-card rv"><span class="n">06</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/></svg></div><h3>الإعلانات والتقارير</h3><p>تمويل ذكي على ميتا، وتقرير شهري بالأرقام.</p></div>
+      <div class="svc-card rv wide-svc"><span class="n">07</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg></div><div><h3>توثيق رحلات وأفلام وثائقية</h3><p>منرافقك برحلتك أو زيارتك أيام كاملة، ومنطلعلك فيلم بيحكي القصة من أولها لآخرها.</p></div></div>
     </div>
   </div>
 </section>
@@ -315,15 +332,17 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
         <button data-f="event">فعاليات</button>
         <button data-f="social">سوشيال</button>
         <button data-f="expo">معارض</button>
+        <button data-f="doc">رحلات ووثائقي</button>
       </div>
     </div>
     <div class="works" id="works">
-      <article class="work wide rv" data-c="drone"><div class="media m1"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[اسم المشروع]</h3><p>[سطر عن المشروع: وين، ولمين، وشو كانت النتيجة]</p></div></article>
-      <article class="work rv" data-c="social"><div class="media m2"></div><div class="play">▶</div><div class="info"><span class="tag">سوشيال</span><h3>[اسم العميل]</h3><p>[إدارة صفحة — نتيجة بالأرقام]</p></div></article>
-      <article class="work rv" data-c="event"><div class="media m3"></div><div class="play">▶</div><div class="info"><span class="tag">فعاليات</span><h3>[اسم المؤتمر]</h3><p>[تغطية كاملة خلال يومين]</p></div></article>
-      <article class="work rv" data-c="expo"><div class="media m4"></div><div class="play">▶</div><div class="info"><span class="tag">معارض</span><h3>[اسم المعرض]</h3><p>[تغطية جناح العميل]</p></div></article>
-      <article class="work rv" data-c="drone"><div class="media m5"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[مشروع عقاري]</h3><p>[لقطات جوية للمشروع]</p></div></article>
-      <article class="work wide rv" data-c="social event"><div class="media m6"></div><div class="play">▶</div><div class="info"><span class="tag">مشروع بالسعودية</span><h3>[اسم المشروع]</h3><p>[سافرنا بفريق كامل — شو عملنا]</p></div></article>
+      <article class="work wide rv" data-c="drone"><div class="media m1"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[اسم المشروع]</h3><p>[سطر عن المشروع: وين، ولمين، وشو كانت النتيجة]</p><div class="meta"><span>📍 [المدينة · الحي]</span><span>🎥 تصوير جوي درون</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work rv" data-c="social"><div class="media m2"></div><div class="play">▶</div><div class="info"><span class="tag">سوشيال</span><h3>[اسم العميل]</h3><p>[إدارة صفحة — نتيجة بالأرقام]</p><div class="meta"><span>📍 [المدينة]</span><span>🎥 إدارة صفحة</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work rv" data-c="event"><div class="media m3"></div><div class="play">▶</div><div class="info"><span class="tag">فعاليات</span><h3>[اسم المؤتمر]</h3><p>[تغطية كاملة خلال يومين]</p><div class="meta"><span>📍 [المكان]</span><span>🎥 تغطية فعالية</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work rv" data-c="expo"><div class="media m4"></div><div class="play">▶</div><div class="info"><span class="tag">معارض</span><h3>[اسم المعرض]</h3><p>[تغطية جناح العميل]</p><div class="meta"><span>📍 [القاعة · رقم الجناح]</span><span>🎥 تغطية جناح</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work rv" data-c="drone"><div class="media m5"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[مشروع عقاري]</h3><p>[لقطات جوية للمشروع]</p><div class="meta"><span>📍 [المدينة · الحي]</span><span>🎥 تصوير عقار · داخلي وجوي</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work rv" data-c="doc"><div class="media m2" style="background:radial-gradient(circle at 50% 30%,rgba(195,250,79,.35),transparent 50%),linear-gradient(180deg,#1a1a18,#0e0e0d)"></div><div class="play">▶</div><div class="info"><span class="tag">توثيق رحلة</span><h3>زيارة الشام · 3 أيام</h3><p>[مين الزائر، وشو وثّقنا بالرحلة]</p><div class="meta"><span>📍 دمشق</span><span>🎥 توثيق رحلة · فيلم قصير</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work wide rv" data-c="social event"><div class="media m6"></div><div class="play">▶</div><div class="info"><span class="tag">مشروع بالسعودية</span><h3>[اسم المشروع]</h3><p>[سافرنا بفريق كامل — شو عملنا]</p><div class="meta"><span>📍 [المدينة]</span><span>🎥 إدارة صفحة</span><span>📅 [التاريخ]</span></div></div></article>
     </div>
     <p class="note">ملاحظة: الصور والأسماء بين أقواس مكانها لأعمالكم الحقيقية — ابعتلي الصور والفيديوهات وبحطها.</p>
   </div>
@@ -345,12 +364,13 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
 <!-- VALUES -->
 <section id="values">
   <div class="wrap">
-    <div class="sec-head rv"><div><span class="eyebrow">OUR RULES</span><h2 class="h2">أربع قواعد <em>ما منتنازل عنها</em></h2></div></div>
+    <div class="sec-head rv"><div><span class="eyebrow">OUR RULES</span><h2 class="h2">خمس قواعد <em>ما منتنازل عنها</em></h2></div></div>
     <div class="vals">
-      <div class="val rv"><b>01</b><h3>الخطة قبل الكاميرا</h3><p>ما منصور شي قبل ما نعرف ليش ولمين.</p></div>
-      <div class="val rv"><b>02</b><h3>أرقام مو انطباعات</h3><p>كل شهر منرجع للأرقام ومنعدّل.</p></div>
-      <div class="val rv"><b>03</b><h3>سرعة بالميدان</h3><p>بالمؤتمر والمعرض المحتوى بنفس اليوم.</p></div>
-      <div class="val rv"><b>04</b><h3>قريبين من العميل</h3><p>منحكي لغته ومنفهم شغله قبل ما نحكي عنه.</p></div>
+      <div class="val first rv"><b>01</b><h3>محتوى نظيف</h3><p>ملتزمين بالضوابط الدينية والأخلاقية، وما منشتغل بأي شي فيه حرمانية.</p></div>
+      <div class="val rv"><b>02</b><h3>الخطة قبل الكاميرا</h3><p>ما منصور شي قبل ما نعرف ليش ولمين.</p></div>
+      <div class="val rv"><b>03</b><h3>أرقام مو انطباعات</h3><p>كل شهر منرجع للأرقام ومنعدّل.</p></div>
+      <div class="val rv"><b>04</b><h3>سرعة بالميدان</h3><p>بالمؤتمر والمعرض المحتوى بنفس اليوم.</p></div>
+      <div class="val rv"><b>05</b><h3>قريبين من العميل</h3><p>منحكي لغته ومنفهم شغله قبل ما نحكي عنه.</p></div>
     </div>
   </div>
 </section>
@@ -426,8 +446,16 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
 
 <footer>
   <div class="wrap">
-    <div class="big-name">شفق</div>
-    <div class="foot"><span>© 2026 شفق ميديا · دمشق — وين ما كنت، منجي لعندك</span><span>shafqmedia@gmail.com · +966 56 307 9286</span></div>
+    <div class="fcta">
+      <h2>عندك مشروع؟<br><em>منجي لعندك.</em></h2>
+      <a href="#contact" class="btn lime">احكي معنا ←</a>
+    </div>
+    <div class="fgrid">
+      <div><a href="#home" class="logo" style="font-size:40px"><i></i>شفق</a><p style="color:#A3A39C;margin-top:10px;max-width:300px">وكالة سوشيال ميديا ماركتنج من دمشق، وشغلنا وين ما كنت.</p></div>
+      <div><h4>الموقع</h4><a href="#about">مين نحن</a><a href="#services">خدماتنا</a><a href="#work">أعمالنا</a><a href="#offer">العروض</a></div>
+      <div><h4>تواصل</h4><a href="https://wa.me/966563079286" dir="ltr">+966 56 307 9286</a><a href="mailto:shafqmedia@gmail.com">shafqmedia@gmail.com</a><a href="https://instagram.com/shafq.media" dir="ltr">@shafq.media</a></div>
+    </div>
+    <div class="foot"><span>© 2026 شفق ميديا</span><a href="#home">↑ لفوق</a></div>
   </div>
 </footer>
 
