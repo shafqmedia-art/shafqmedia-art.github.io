@@ -134,8 +134,11 @@ section{padding:130px 0;position:relative}
 .filters button{font:700 15px Cairo;padding:9px 20px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer;transition:.25s}
 .filters button.on,.filters button:hover{background:var(--ink);color:var(--lime);border-color:var(--ink)}
 .works{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-.work{grid-column:span 4;border-radius:28px;overflow:hidden;position:relative;aspect-ratio:4/5;background:var(--ink);color:var(--paper);cursor:pointer;transition:transform .4s,opacity .4s}
+.work{grid-column:span 4;border-radius:28px;overflow:hidden;position:relative;aspect-ratio:4/3.4;background:var(--ink);color:var(--paper);cursor:pointer;transition:transform .4s,opacity .4s}
 .work.wide{grid-column:span 8;aspect-ratio:auto}
+.work.full{grid-column:1/-1;aspect-ratio:21/8}
+.work.q{grid-column:span 3;aspect-ratio:4/5}
+.work.full h3{font-size:34px}
 .work.hidden{display:none}
 .work .media{position:absolute;inset:0;transition:transform .8s cubic-bezier(.2,.8,.2,1)}
 .work:hover .media{transform:scale(1.07)}
@@ -274,12 +277,13 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
  .svc,.stories,.stats{grid-template-columns:1fr 1fr}
  .plans,.incl,.vals{grid-template-columns:1fr 1fr}.val.first{grid-column:1/-1}
  .steps{grid-template-columns:1fr 1fr;gap:40px 0}.steps::before{display:none}
- .work,.work.wide{grid-column:span 6;aspect-ratio:4/5}
+ .work,.work.wide,.work.q{grid-column:span 6;aspect-ratio:4/4}
+ .work.full{grid-column:1/-1;aspect-ratio:16/9}
 }
 @media (max-width:600px){
  .hero h1{white-space:normal}
  .svc,.stories,.plans,.incl,.vals,.stats{grid-template-columns:1fr}
- .work,.work.wide{grid-column:span 12}
+ .work,.work.wide,.work.q,.work.full{grid-column:span 12;aspect-ratio:4/4}
  section{padding:90px 0}
  .plan.best{transform:none}
 }
@@ -361,8 +365,8 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
     <div class="svc">
       <div class="svc-card rv pop"><span class="n">01</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>إدارة السوشيال ميديا</h3><p>نشر منتظم، ردود، وبناء مجتمع حول صفحتك.</p></div>
       <div class="svc-card feat rv"><span class="n">02</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg></div><h3>خطط المحتوى</h3><p>استراتيجية شهرية بأهداف واضحة، وكل قطعة إلها سبب.</p></div>
-      <div class="svc-card rv pop"><span class="n">03</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>تغطية المؤتمرات والإيفنتات</h3><p>من التحضير لآخر لقطة، والمحتوى بينزل بنفس اليوم.</p></div>
-      <div class="svc-card rv pop"><span class="n">04</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div><h3>المعارض والأجنحة</h3><p>جناحك بيوصل لبرّا المعرض، لناس ما حضروا.</p></div>
+      <div class="svc-card rv pop"><span class="n">03</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><h3>تغطية المؤتمرات والإيفنتات</h3><p>من التحضير لآخر لقطة، والمحتوى الكامل بينزل خلال 3 أيام لأسبوع.</p></div>
+      <div class="svc-card rv pop"><span class="n">04</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></div><h3>المعارض والأجنحة</h3><p>منغطي جناحك ومنوصّله لناس ما حضروا، والمحتوى بينزل بنفس اليوم.</p></div>
       <div class="svc-card rv pop"><span class="n">05</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M5 19l2.5-2.5M16.5 7.5L19 5"/></svg></div><h3>تصوير درون وفيديو</h3><p>تصوير أرضي وجوي، ريلز، ومونتاج احترافي.</p></div>
       <div class="svc-card rv pop"><span class="n">06</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/></svg></div><h3>الإعلانات والتقارير</h3><p>تمويل ذكي على ميتا، وتقرير شهري بالأرقام.</p></div>
       <div class="svc-card rv wide-svc"><span class="n">07</span><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg></div><div><h3>توثيق رحلات وأفلام وثائقية</h3><p>منرافقك برحلتك أو زيارتك أيام كاملة، ومنطلعلك فيلم بيحكي القصة من أولها لآخرها.</p></div></div>
@@ -385,12 +389,13 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
       </div>
     </div>
     <div class="works" id="works">
-      <article class="work wide rv" data-c="drone"><div class="media m1"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[اسم المشروع]</h3><p>[سطر عن المشروع: وين، ولمين، وشو كانت النتيجة]</p><div class="meta"><span>📍 [المدينة · الحي]</span><span>🎥 تصوير جوي درون</span><span>📅 [التاريخ]</span></div></div></article>
-      <article class="work rv" data-c="social"><div class="media m2"></div><div class="play">▶</div><div class="info"><span class="tag">سوشيال</span><h3>[اسم العميل]</h3><p>[إدارة صفحة — نتيجة بالأرقام]</p><div class="meta"><span>📍 [المدينة]</span><span>🎥 إدارة صفحة</span><span>📅 [التاريخ]</span></div></div></article>
-      <article class="work rv" data-c="event"><div class="media m3"></div><div class="play">▶</div><div class="info"><span class="tag">فعاليات</span><h3>[اسم المؤتمر]</h3><p>[تغطية كاملة خلال يومين]</p><div class="meta"><span>📍 [المكان]</span><span>🎥 تغطية فعالية</span><span>📅 [التاريخ]</span></div></div></article>
-      <article class="work rv" data-c="expo"><div class="media m4"></div><div class="play">▶</div><div class="info"><span class="tag">معارض</span><h3>[اسم المعرض]</h3><p>[تغطية جناح العميل]</p><div class="meta"><span>📍 [القاعة · رقم الجناح]</span><span>🎥 تغطية جناح</span><span>📅 [التاريخ]</span></div></div></article>
-      <article class="work rv" data-c="drone"><div class="media m5"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[مشروع عقاري]</h3><p>[لقطات جوية للمشروع]</p><div class="meta"><span>📍 [المدينة · الحي]</span><span>🎥 تصوير عقار · داخلي وجوي</span><span>📅 [التاريخ]</span></div></div></article>
-      <article class="work rv" data-c="doc"><div class="media m2" style="background:radial-gradient(circle at 50% 30%,rgba(195,250,79,.35),transparent 50%),linear-gradient(180deg,#1a1a18,#0e0e0d)"></div><div class="play">▶</div><div class="info"><span class="tag">توثيق رحلة</span><h3>زيارة الشام · 3 أيام</h3><p>[مين الزائر، وشو وثّقنا بالرحلة]</p><div class="meta"><span>📍 دمشق</span><span>🎥 توثيق رحلة · فيلم قصير</span><span>📅 [التاريخ]</span></div></div></article>
+      <article class="work full rv" data-c="social event"><div class="media m1" style="background:radial-gradient(circle at 70% 30%,rgba(195,250,79,.3),transparent 50%),linear-gradient(135deg,#1c1c1a,#262b17)"></div><div class="play">▶</div><div class="info"><span class="tag">السعودية</span><h3>[اسم المشروع بالسعودية]</h3><p>[سافرنا بفريق كامل — شو عملنا]</p><div class="meta"><span>[نوع الشغل]</span></div></div></article>
+      <article class="work full rv" data-c="event"><div class="media m3"></div><div class="play">▶</div><div class="info"><span class="tag">فعاليات</span><h3>[اسم المؤتمر]</h3><p>[تغطية كاملة خلال يومين]</p><div class="meta"><span>تغطية فعالية</span></div></div></article>
+      <article class="work full rv" data-c="doc"><div class="media m2" style="background:radial-gradient(circle at 50% 30%,rgba(195,250,79,.35),transparent 50%),linear-gradient(180deg,#1a1a18,#0e0e0d)"></div><div class="play">▶</div><div class="info"><span class="tag">توثيق رحلة</span><h3>زيارة الشام · 3 أيام</h3><p>[مين الزائر، وشو وثّقنا بالرحلة]</p><div class="meta"><span>توثيق رحلة · فيلم قصير</span></div></div></article>
+      <article class="work q rv" data-c="drone"><div class="media m1"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[اسم المشروع]</h3><p>[سطر عن المشروع: وين، ولمين، وشو كانت النتيجة]</p><div class="meta"><span>تصوير جوي درون</span></div></div></article>
+      <article class="work q rv" data-c="social"><div class="media m2"></div><div class="play">▶</div><div class="info"><span class="tag">سوشيال</span><h3>[اسم العميل]</h3><p>[إدارة صفحة — نتيجة بالأرقام]</p><div class="meta"><span>إدارة صفحة سوشيال ميديا</span></div></div></article>
+      <article class="work q rv" data-c="expo"><div class="media m4"></div><div class="play">▶</div><div class="info"><span class="tag">معارض</span><h3>[اسم المعرض]</h3><p>[تغطية جناح العميل]</p><div class="meta"><span>تغطية جناح</span></div></div></article>
+      <article class="work q rv" data-c="drone"><div class="media m5"></div><div class="play">▶</div><div class="info"><span class="tag">درون</span><h3>[مشروع عقاري]</h3><p>[لقطات جوية للمشروع]</p><div class="meta"><span>تصوير عقاري داخلي وجوي</span></div></div></article>
     </div>
   </div>
 </section>
@@ -416,7 +421,7 @@ footer{background:var(--ink);color:var(--paper);padding:90px 0 30px;overflow:hid
       <div class="val first rv pop"><b>01</b><h3>محتوى نظيف</h3><p>ملتزمين بالضوابط الدينية والأخلاقية، وما منشتغل بأي شي فيه حرمانية.</p></div>
       <div class="val rv pop"><b>02</b><h3>الخطة قبل الكاميرا</h3><p>ما منصور شي قبل ما نعرف ليش ولمين.</p></div>
       <div class="val rv pop"><b>03</b><h3>أرقام مو انطباعات</h3><p>كل شهر منرجع للأرقام ومنعدّل.</p></div>
-      <div class="val rv pop"><b>04</b><h3>سرعة بالميدان</h3><p>بالمؤتمر والمعرض المحتوى بنفس اليوم.</p></div>
+      <div class="val rv pop"><b>04</b><h3>سرعة بالميدان</h3><p>بالمعرض المحتوى بنفس اليوم، وبالمؤتمر خلال 3 أيام لأسبوع.</p></div>
       <div class="val rv pop"><b>05</b><h3>قريبين من العميل</h3><p>منحكي لغته ومنفهم شغله قبل ما نحكي عنه.</p></div>
     </div>
   </div>
