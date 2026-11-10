@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شفق ميديا · عرض وعقد</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--lime:#C3FA4F;--ink:#141414;--paper:#F5F5F0;--mute:#6B6B66;--line:#DADAD3;--ink2:#2A2A28}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Cairo,Tahoma,sans-serif;background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* top bar */
+.bar{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(20,20,20,.92);backdrop-filter:blur(10px);color:var(--paper)}
+.mark{font-weight:900;font-size:26px;letter-spacing:-.5px;display:flex;align-items:center;gap:10px}
+.mark i{width:12px;height:12px;border-radius:50%;background:var(--lime);display:inline-block}
+.bar .now{font-size:13px;color:#A3A39C;font-weight:600}
+.bar .now b{color:var(--lime);font-weight:700}
+.menu-btn{background:var(--lime);color:var(--ink);border:0;font:700 14px Cairo;padding:8px 18px;border-radius:999px;cursor:pointer}
+.progress{position:fixed;top:0;right:0;height:3px;background:var(--lime);z-index:60;width:0}
+
+/* drawer */
+.drawer{position:fixed;inset:0;z-index:70;background:var(--ink);color:var(--paper);padding:90px 28px 40px;transform:translateY(-100%);transition:transform .45s cubic-bezier(.7,0,.2,1);overflow:auto}
+.drawer.open{transform:none}
+.drawer ol{list-style:none;max-width:900px;margin:0 auto;columns:2;column-gap:48px}
+.drawer li{break-inside:avoid;border-bottom:1px solid #333;}
+.drawer a{display:flex;gap:16px;padding:14px 0;text-decoration:none;font-size:20px;font-weight:700}
+.drawer a span{color:var(--lime);font-size:14px;min-width:28px;padding-top:6px}
+.drawer a:hover{color:var(--lime)}
+.drawer .x{position:absolute;top:18px;left:28px;background:none;border:1px solid #444;color:var(--paper);width:42px;height:42px;border-radius:50%;font-size:18px;cursor:pointer}
+
+/* sections */
+section{position:relative;padding:120px 0 90px;overflow:hidden}
+section.dark{background:var(--ink);color:var(--paper)}
+section.lime{background:var(--lime)}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:48px;border-bottom:2px solid currentColor;padding-bottom:18px}
+.head .num{font-size:84px;font-weight:900;line-height:.9;color:var(--lime);-webkit-text-stroke:0}
+section.lime .head .num{color:var(--ink)}
+section:not(.dark):not(.lime) .head .num{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.head h2{font-size:clamp(32px,4.5vw,56px);font-weight:900;line-height:1.15}
+.head small{display:block;font-size:13px;letter-spacing:3px;font-weight:700;color:var(--mute);direction:ltr;text-align:right}
+section.dark .head small{color:#A3A39C}
+.lead{font-size:20px;max-width:760px;color:var(--mute)}
+section.dark .lead{color:#C9C9C2}
+
+.blob{position:absolute;pointer-events:none}
+
+/* hero */
+.hero{min-height:100vh;display:flex;align-items:center;background:var(--ink);color:var(--paper);padding-top:110px}
+.hero .kicker{display:inline-block;background:var(--lime);color:var(--ink);font-weight:700;padding:4px 16px;border-radius:999px;font-size:14px;direction:ltr}
+.hero h1{font-size:clamp(46px,8vw,112px);font-weight:900;line-height:1.05;margin:22px 0 10px}
+.hero h1 em{font-style:normal;color:var(--lime)}
+.hero .client{font-size:22px;color:#C9C9C2}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#333;margin-top:56px;border-radius:20px;overflow:hidden}
+.meta div{background:var(--ink2);padding:20px 22px}
+.meta span{display:block;font-size:13px;color:#A3A39C}
+.meta b{font-size:19px}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.tags span{border:1px solid #555;padding:4px 16px;border-radius:999px;font-size:14px}
+
+/* cards */
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px;transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(0,0,0,.25)}
+section.dark .card{background:var(--ink2);border-color:#333}
+.card h3{font-size:22px;font-weight:900;margin-bottom:8px}
+.card p,.card li{color:var(--mute);font-size:16px}
+section.dark .card p,section.dark .card li{color:#C9C9C2}
+.card .ic{width:46px;height:46px;border-radius:14px;background:var(--lime);display:grid;place-items:center;font-weight:900;margin-bottom:18px;color:var(--ink)}
+.card ul{padding-right:18px}
+.card.feature{background:var(--lime);border-color:var(--lime)}
+.card.feature p{color:var(--ink)}
+
+.letter{background:#fff;border-radius:28px;padding:48px;border:1px solid var(--line);font-size:18px;max-width:860px}
+.letter p+p{margin-top:14px}
+.letter .sig{margin-top:28px;font-weight:700}
+
+/* timeline */
+.tl{position:relative;display:grid;gap:0}
+.tl-item{display:grid;grid-template-columns:150px 40px 1fr;gap:20px;align-items:start;padding-bottom:36px}
+.tl-item .when{font-weight:700;color:#A3A39C;font-size:15px;padding-top:4px}
+.tl-item .dot{position:relative;height:100%}
+.tl-item .dot::before{content:"";position:absolute;right:50%;transform:translateX(50%);top:8px;width:16px;height:16px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 6px rgba(195,250,79,.18)}
+.tl-item .dot::after{content:"";position:absolute;right:50%;top:30px;bottom:-36px;width:2px;background:#333}
+.tl-item:last-child .dot::after{display:none}
+.tl-item h3{font-size:24px;font-weight:900}
+.tl-item p{color:#C9C9C2}
+
+/* stats */
+.stat{border-top:3px solid var(--ink);padding-top:16px}
+.stat b{display:block;font-size:clamp(54px,7vw,96px);font-weight:900;line-height:1}
+.stat span{font-weight:700}
+
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-top:20px}
+.cal div{height:86px;border-radius:12px;background:#fff;border:1px solid var(--line);padding:8px;font-size:12px;font-weight:700;display:flex;flex-direction:column;justify-content:space-between}
+.cal div.p1{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.cal div.p2{background:var(--lime);border-color:var(--lime)}
+.cal div.p3{background:#E6FDB4;border-color:#E6FDB4}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px;font-size:14px;color:var(--mute)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-left:6px;vertical-align:-2px}
+
+/* terms */
+.terms{counter-reset:t;list-style:none}
+.terms li{counter-increment:t;display:grid;grid-template-columns:56px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line)}
+.terms li::before{content:counter(t,decimal-leading-zero);font-weight:900;font-size:22px;color:var(--ink);background:var(--lime);border-radius:12px;height:44px;display:grid;place-items:center}
+.terms h4{font-size:20px;font-weight:900}
+.terms p{color:var(--mute)}
+
+.price{background:var(--ink);color:var(--paper);border-radius:28px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:36px}
+.price b{font-size:44px;font-weight:900;color:var(--lime)}
+
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
+.sign div{border:2px dashed #999;border-radius:22px;padding:28px;min-height:190px;display:flex;flex-direction:column;justify-content:space-between}
+.sign span{color:var(--mute);font-size:14px}
+
+/* closing */
+.closing h2{font-size:clamp(48px,9vw,128px);font-weight:900;line-height:1}
+.closing h2 em{font-style:normal;color:var(--lime)}
+.contact{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
+.contact a,.contact span{border:1px solid #444;border-radius:999px;padding:10px 20px;text-decoration:none;direction:ltr}
+.contact a:hover{background:var(--lime);color:var(--ink);border-color:var(--lime)}
+footer{background:var(--ink);color:#77776F;text-align:center;padding:24px;font-size:13px;border-top:1px solid #2a2a28}
+
+
+/* client setup */
+.clogo{width:110px;height:110px;border-radius:24px;background:#fff;display:none;place-items:center;overflow:hidden;margin-top:24px}
+.clogo img{max-width:85%;max-height:85%;object-fit:contain}
+.setup{position:fixed;inset:0;z-index:90;background:var(--ink);color:var(--paper);display:grid;place-items:center;padding:24px;overflow:auto;transition:opacity .5s,transform .6s cubic-bezier(.7,0,.2,1)}
+.setup.hide{opacity:0;transform:translateY(-100%);pointer-events:none}
+.setup form{width:100%;max-width:640px;display:grid;gap:16px}
+.setup h2{font-size:clamp(34px,6vw,56px);font-weight:900;line-height:1.1}
+.setup h2 em{font-style:normal;color:var(--lime)}
+.setup label{display:grid;gap:6px;font-weight:700;font-size:15px;color:#C9C9C2}
+.setup input,.setup textarea{font:600 17px Cairo;background:var(--ink2);border:1px solid #3a3a37;color:var(--paper);border-radius:14px;padding:12px 16px;outline:none;transition:border .2s}
+.setup input:focus,.setup textarea:focus{border-color:var(--lime)}
+.setup .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.drop{border:2px dashed #444;border-radius:18px;padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer}
+.drop:hover{border-color:var(--lime)}
+.drop .pv{width:70px;height:70px;border-radius:14px;background:#fff;display:grid;place-items:center;overflow:hidden;flex:none;color:#999;font-size:12px}
+.drop .pv img{max-width:85%;max-height:85%}
+.go{background:var(--lime);color:var(--ink);border:0;font:900 20px Cairo;padding:16px;border-radius:999px;cursor:pointer;transition:transform .2s}
+.go:hover{transform:scale(1.02)}
+.skip{background:none;border:0;color:#77776F;font:600 14px Cairo;cursor:pointer}
+@media(max-width:600px){.setup .row{grid-template-columns:1fr}}
+
+.igbox{display:none;grid-template-columns:minmax(0,340px) 1fr;gap:40px;align-items:center;margin-top:40px}
+.phone{border:10px solid #2f2f2c;border-radius:38px;overflow:hidden;background:#000;box-shadow:0 30px 60px -20px rgba(195,250,79,.25);transform:rotate(-2deg);transition:transform .6s;margin:12px}
+.phone:hover{transform:rotate(0) scale(1.02)}
+.phone img{display:block;width:100%;height:auto}
+.big{display:block;font-size:44px;font-weight:900;color:var(--lime);direction:ltr;text-align:right}
+@media(max-width:760px){.igbox{grid-template-columns:1fr}.phone{max-width:260px;margin:auto}}
+/* reveal */
+.rv{opacity:0;transform:translateY(40px) scale(.98);filter:blur(6px);transition:opacity .9s cubic-bezier(.2,.8,.2,1),transform .9s cubic-bezier(.2,.8,.2,1),filter .9s}
+.rv.in{opacity:1;transform:none;filter:none}
+.head .num{transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.head.rv:not(.in) .num{transform:translateX(-60px) rotate(-8deg)}
+.head h2{position:relative;display:inline-block}
+.head h2::after{content:"";position:absolute;right:0;bottom:2px;height:10px;width:0;background:var(--lime);z-index:-1;transition:width 1s .4s cubic-bezier(.2,.8,.2,1)}
+.head.in h2::after{width:100%}
+section.lime .head h2::after{background:#fff}
+
+/* hero animations */
+.hero-blob{animation:morph 9s ease-in-out infinite alternate;transform-origin:0 0}
+@keyframes morph{0%{transform:scale(1) rotate(0)}50%{transform:scale(1.08) rotate(3deg)}100%{transform:scale(.94) rotate(-2deg)}}
+.ring{animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero h1 .w{display:inline-block;opacity:0;transform:translateY(80%) rotate(4deg);animation:up .9s cubic-bezier(.2,.8,.2,1) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+.marquee{overflow:hidden;white-space:nowrap;border-block:1px solid #333;margin-top:40px;padding:12px 0;color:#77776F;font-weight:900;font-size:22px}
+.marquee div{display:inline-block;animation:mq 25s linear infinite}
+.marquee b{color:var(--lime);margin:0 18px}
+@keyframes mq{to{transform:translateX(16.6667%)}}
+
+/* duration picker */
+.picker{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.picker button{font:700 17px Cairo;padding:12px 26px;border-radius:999px;border:2px solid #444;background:transparent;color:var(--paper);cursor:pointer;transition:all .3s}
+.picker button:hover{border-color:var(--lime)}
+.picker button.on{background:var(--lime);color:var(--ink);border-color:var(--lime);transform:scale(1.05)}
+section:not(.dark) .picker button{color:var(--ink);border-color:var(--line)}
+section:not(.dark) .picker button.on{border-color:var(--lime)}
+.price .picker button{color:var(--paper)!important;border-color:#555!important}
+.price .picker button.on{color:var(--ink)!important;border-color:var(--lime)!important}
+.tl-item.anim,.cal div.anim{animation:pop .6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.9)}to{opacity:1;transform:none}}
+.cal{grid-template-columns:repeat(var(--n,12),1fr)}
+.week{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px}
+.week .card b{font-size:46px;font-weight:900;line-height:1}
+.week .card b small{font-size:16px;color:var(--mute)}
+
+@media (max-width:860px){
+ .g3,.g4,.meta{grid-template-columns:1fr 1fr}
+ .g2,.sign{grid-template-columns:1fr}
+ .tl-item{grid-template-columns:1fr;gap:4px}.tl-item .dot{display:none}
+ .cal{grid-template-columns:repeat(6,1fr)}
+ .drawer ol{columns:1}
+ .head .num{font-size:56px}
+ .bar .now{display:none}
+}
+@media (max-width:520px){.g3,.g4,.meta{grid-template-columns:1fr}.letter{padding:28px}}
+@media print{.bar,.drawer,.progress{display:none}.rv{opacity:1;transform:none}section{page-break-after:always}}
+</style>
+</head>
+<body>
+
+<div class="setup" id="setup">
+  <form id="cf">
+    <div class="mark" style="margin-bottom:8px"><i></i>شفق</div>
+    <h2>عرض جديد<br><em>لمين هالمرة؟</em></h2>
+    <label>اسم العميل<input name="name" required placeholder="مثلاً: عمار للموبايلات"></label>
+    <div class="row">
+      <label>شو بيشتغل<input name="type" placeholder="مثلاً: صيانة وبيع موبايلات"></label>
+      <label>الموقع<input name="loc" placeholder="دمشق، سوريا"></label>
+    </div>
+    <label>لمحة بسيطة عنه<textarea name="about" rows="3" placeholder="من إيمتى شغّال، شو بيميّزه، شو هدفه..."></textarea></label>
+    <div class="row">
+      <label class="drop" for="logoIn"><div class="pv" id="pv">لوغو</div><div><b>لوغو العميل</b><br><span style="color:#77776F;font-weight:600">اختياري</span></div></label>
+      <label class="drop" for="igIn"><div class="pv" id="pvIg">IG</div><div><b>سكرين شوت إنستغرام</b><br><span style="color:#77776F;font-weight:600">صفحة البروفايل</span></div></label>
+    </div>
+    <input type="file" id="logoIn" accept="image/*" hidden>
+    <input type="file" id="igIn" accept="image/*" hidden>
+    <div class="row" style="grid-template-columns:1fr 1fr 1fr">
+      <label>يوزر إنستغرام<input name="ig" placeholder="@username" dir="ltr"></label>
+      <label>المتابعين<input name="fol" placeholder="12.5K" dir="ltr"></label>
+      <label>المنشورات<input name="posts" placeholder="240" dir="ltr"></label>
+    </div>
+    <button class="go" type="submit">جهّز العرض ←</button>
+    <button class="skip" type="button" id="skip">تخطّي وشوف القالب</button>
+  </form>
+</div>
+<div class="progress" id="prog"></div><div id="toast" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(120px);background:var(--lime);color:var(--ink);font-weight:700;padding:12px 24px;border-radius:999px;z-index:95;transition:transform .4s"></div>
+
+<header class="bar">
+  <div class="mark"><i></i>شفق</div>
+  <div class="now">القسم الحالي: <b id="cur">الغلاف</b></div>
+  <div style="display:flex;gap:8px"><button class="menu-btn" id="exportBtn" style="background:var(--paper);color:var(--ink)">نسخة العميل ⬇</button><button class="menu-btn" id="editClient" style="background:transparent;color:var(--paper);border:1px solid #555">بيانات العميل</button><button class="menu-btn" id="openMenu">الفهرس</button></div>
+</header>
+
+<nav class="drawer" id="drawer" aria-label="الفهرس">
+  <button class="x" id="closeMenu" aria-label="إغلاق">✕</button>
+  <ol id="toc"></ol>
+</nav>
+
+<!-- 00 HERO -->
+<section class="hero" id="cover" data-title="الغلاف">
+  <svg class="blob hero-blob" style="left:0;top:60px;width:min(34vw,400px)" viewBox="0 0 430 270"><path d="M0 0 H430 C387 167 237 256 0 270 Z" fill="#C3FA4F"/></svg>
+  <svg class="blob ring" style="right:-120px;bottom:-140px;width:460px" viewBox="0 0 200 200"><circle cx="100" cy="100" r="98" fill="none" stroke="#2f2f2c" stroke-width="2" stroke-dasharray="6 10"/><circle cx="100" cy="100" r="60" fill="none" stroke="#2f2f2c" stroke-width="2"/></svg>
+  <div class="wrap" style="position:relative;z-index:2">
+    <span class="kicker rv">CONTENT · COVERAGE · GROWTH</span>
+    <h1><span class="w" style="animation-delay:.1s">عرض</span> <span class="w" style="animation-delay:.25s">وعقد</span><br><em class="w" style="animation-delay:.45s">إدارة المحتوى</em></h1>
+    <div class="clogo rv" id="heroLogo"></div><p class="client rv">مقدّم إلى: <b><span data-f="name">[اسم العميل]</span></b> — <span data-f="type">[نوع النشاط]</span></p>
+    <div class="meta rv">
+      <div><span>الموقع</span><b><span data-f="loc">[المدينة، البلد]</span></b></div>
+      <div><span>تاريخ العرض</span><b><span data-f="date">[التاريخ]</span></b></div>
+      <div><span>مدة العقد</span><b class="durTxt">شهر واحد</b></div>
+      <div><span>رقم العقد</span><b>SH-[000]</b></div>
+    </div>
+    <div class="tags rv"><span>إدارة صفحات</span><span>تصوير وفيديو</span><span>تغطية فعاليات</span><span>إعلانات ممولة</span><span>تصوير درون</span></div>
+  </div>
+  <div class="marquee" style="position:absolute;bottom:0;left:0;right:0"><div><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b><span dir="ltr">shafqmedia@gmail.com</span><b>●</b><span dir="ltr">+966 56 307 9286</span><b>●</b><span dir="ltr">@shafq.media</span><b>●</b></div></div>
+</section>
+
+<!-- 01 INTRO -->
+<section id="intro" data-title="المقدمة">
+  <div class="wrap">
+    <div class="head rv"><div><small>INTRODUCTION</small><h2>رسالة لكم</h2></div><div class="num">01</div></div>
+    <div class="letter rv">
+      <p>السادة في <b><span data-f="name">[اسم العميل]</span></b> المحترمين،</p>
+      <p>شكراً لثقتكم فينا. بشفق ما منبيع منشورات أو فيديوهات متفرقة، منبني خطة محتوى استراتيجية كاملة، وكل فيديو وستوري وريل بيخدم هدف واضح بالخطة.</p>
+      <p>بهالعرض منشرح فهمنا لمشروعكم، شو رح نشتغل، مين مسؤول عن شو، والمراحل والمواعيد، ثم شروط التعاون. ووين ما كنتوا، منجي لعندكم.</p>
+      <p class="sig">— فريق شفق ميديا</p>
+    </div>
+    <div class="grid g3" style="margin-top:28px">
+      <div class="card rv"><div class="ic">١</div><h3>خطة قبل الكاميرا</h3><p>كل شغلة منصورها إلها مكان بخطة شهرية مدروسة.</p></div>
+      <div class="card feature rv"><div class="ic" style="background:var(--ink);color:var(--lime)">٢</div><h3>فريق ميداني</h3><p>تصوير أرضي وجوي وتغطية فعاليات ومعارض.</p></div>
+      <div class="card rv"><div class="ic">٣</div><h3>أرقام واضحة</h3><p>تقارير دورية بتوريكم وين وصلنا ووين رايحين.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PROJECT -->
+<section class="dark" id="project" data-title="فهم المشروع">
+  <svg class="blob" style="left:0;bottom:0;width:380px;transform:scaleY(-1)" viewBox="0 0 430 270"><path d="M0 0 H430 C387 167 237 256 0 270 Z" fill="#C3FA4F" opacity=".12"/></svg>
+  <div class="wrap">
+    <div class="head rv"><div><small>THE PROJECT</small><h2>فهمنا لمشروعكم</h2></div><div class="num">02</div></div>
+    <p class="lead rv"><span data-f="about">[وصف مختصر عن العميل: شو بيشتغل، من إيمتى، وشو بيميّزه عن غيره.]</span></p>
+    
+    <div class="igbox rv" id="igBox">
+      <div class="phone"><img id="igShot" alt="بروفايل إنستغرام"></div>
+      <div class="igstats">
+        <small style="letter-spacing:3px;font-weight:700;color:#A3A39C">INSTAGRAM TODAY</small>
+        <h3 id="igHandle" dir="ltr" style="font-size:30px;font-weight:900;text-align:right"></h3>
+        <div class="grid g2" style="margin-top:18px">
+          <div class="card"><span style="color:#A3A39C">متابعين</span><b class="big" id="igFol">—</b></div>
+          <div class="card"><span style="color:#A3A39C">منشورات</span><b class="big" id="igPosts">—</b></div>
+        </div>
+        <p style="margin-top:18px;color:#C9C9C2">هاد وضع الصفحة اليوم، ومنه منبلّش نقيس النمو شهر بشهر.</p>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:36px">
+      <div class="card rv"><h3>الوضع الحالي</h3><p>[حالة الصفحات اليوم: عدد المتابعين، التفاعل، نقاط الضعف.]</p></div>
+      <div class="card rv"><h3>الهدف</h3><p>[شو بدكم توصلوا خلال مدة العقد: مبيعات، شهرة، زبائن جدد.]</p></div>
+      <div class="card rv"><h3>الجمهور</h3><p>[مين الزبون المستهدف: العمر، المنطقة، الاهتمامات.]</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 SCOPE -->
+<section id="scope" data-title="نطاق العمل">
+  <div class="wrap">
+    <div class="head rv"><div><small>SCOPE OF WORK</small><h2>شو رح نشتغل</h2></div><div class="num">03</div></div>
+    <div class="grid g4">
+      <div class="card rv"><div class="ic">◐</div><h3>خطة محتوى</h3><p>خطة شهرية بالأفكار والمواعيد.</p></div>
+      <div class="card rv"><div class="ic">◉</div><h3>تصوير</h3><p>صور وفيديو احترافي بالموقع.</p></div>
+      <div class="card rv"><div class="ic">✦</div><h3>مونتاج</h3><p>ريلز وستوريات وفيديوهات قصيرة.</p></div>
+      <div class="card rv"><div class="ic">▲</div><h3>تصوير درون</h3><p>لقطات جوية للمكان والفعاليات.</p></div>
+      <div class="card rv"><div class="ic">▣</div><h3>تصميم</h3><p>منشورات وأغلفة بهوية العميل.</p></div>
+      <div class="card rv"><div class="ic">↗</div><h3>إعلانات ميتا</h3><p>حملات ممولة واستهداف دقيق.</p></div>
+      <div class="card rv"><div class="ic">◎</div><h3>تغطية فعاليات</h3><p>مؤتمرات ومعارض وأجنحة.</p></div>
+      <div class="card rv"><div class="ic">≡</div><h3>تقارير</h3><p>قياس الأداء وتحسين مستمر.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 RESPONSIBILITIES -->
+<section class="lime" id="roles" data-title="المسؤوليات">
+  <div class="wrap">
+    <div class="head rv"><div><small style="color:var(--ink)">RESPONSIBILITIES</small><h2>مين مسؤول عن شو</h2></div><div class="num">04</div></div>
+    <div class="grid g2">
+      <div class="card rv" style="background:var(--ink);color:var(--paper);border-color:var(--ink)"><h3 style="color:var(--lime)">على شفق</h3><ul style="color:#C9C9C2"><li>إعداد الخطة الشهرية وإرسالها للموافقة قبل بداية الشهر</li><li>التصوير والمونتاج والتصميم والنشر بالمواعيد</li><li>إدارة الحملات الإعلانية</li><li>تقرير أداء دوري</li></ul></div>
+      <div class="card rv"><h3>على العميل</h3><ul><li>الموافقة على الخطة خلال [3] أيام</li><li>تأمين الوصول للمكان والمنتجات أيام التصوير</li><li>تسليم صلاحيات الصفحات</li><li>تحديد شخص واحد للتواصل</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 TIMELINE -->
+<section class="dark" id="timeline" data-title="المراحل">
+  <div class="wrap">
+    <div class="head rv"><div><small>TIMELINE</small><h2>مراحل العقد</h2></div><div class="num">05</div></div>
+    <p class="lead rv" style="margin-bottom:18px">اختار مدة العقد، والمراحل والتقويم بيتغيروا حسبها:</p>
+    <div class="picker rv" role="tablist">
+      <button data-d="1" class="on">شهري</button>
+      <button data-d="3">3 أشهر</button>
+      <button data-d="6">6 أشهر</button>
+      <button data-d="12">سنوي</button>
+    </div>
+    <div class="tl" id="tl"></div>
+  </div>
+</section>
+
+<!-- 06 CALENDAR -->
+<section id="calendar" data-title="التقويم">
+  <div class="wrap">
+    <div class="head rv"><div><small>CONTRACT CALENDAR</small><h2 id="calTitle">العقد على شريط واحد</h2></div><div class="num">06</div></div>
+    <div class="picker rv"><button data-d="1" class="on">شهري</button><button data-d="3">3 أشهر</button><button data-d="6">6 أشهر</button><button data-d="12">سنوي</button></div>
+    <div class="cal" id="cal"></div>
+    <div class="legend" id="legend"></div>
+  </div>
+</section>
+
+<!-- 07 OUTPUT -->
+<section id="output" data-title="الإنتاج الشهري" style="background:#fff">
+  <div class="wrap">
+    <div class="head rv"><div><small>MONTHLY OUTPUT</small><h2>شو بتستلموا كل شهر</h2></div><div class="num">07</div></div>
+    <div class="grid g4">
+      <div class="stat rv"><b class="cnt" data-to="8">0</b><span>ريل بالشهر</span></div>
+      <div class="stat rv"><b class="cnt" data-to="12">0</b><span>بوست بالشهر</span></div>
+      <div class="stat rv"><b class="cnt" data-to="4">0</b><span>كاروسيل بالشهر</span></div>
+      <div class="stat rv"><b class="cnt" data-to="4">0</b><span>بوست الجمعة</span></div>
+    </div>
+    <div class="week">
+      <div class="card rv"><b>2 <small>/ أسبوع</small></b><h3 style="margin-top:10px">ريلز</h3><p>فيديو قصير مصوّر وممنتج.</p></div>
+      <div class="card rv"><b>3 <small>/ أسبوع</small></b><h3 style="margin-top:10px">بوستات</h3><p>تصاميم وصور بهوية العميل.</p></div>
+      <div class="card rv"><b>1 <small>/ أسبوع</small></b><h3 style="margin-top:10px">كاروسيل</h3><p>منشور متعدد الصور بيشرح فكرة.</p></div>
+      <div class="card feature rv"><b>1 <small style="color:var(--ink)">/ أسبوع</small></b><h3 style="margin-top:10px">بوست الجمعة</h3><p>منشور خاص بيوم الجمعة.</p></div>
+    </div>
+    <div class="card rv" style="margin-top:20px;background:var(--ink);color:var(--paper)"><h3 style="color:var(--lime)">مجموع الشهر: <span id="totalMonth">28</span> قطعة محتوى</h3><p style="color:#C9C9C2">ومجموع العقد كامل: <b id="totalAll" style="color:var(--paper)">28</b> قطعة محتوى.</p></div>
+    <div class="grid g2" style="margin-top:48px">
+      <div class="card rv"><h3>التقارير</h3><p>أسبوعي مختصر، شهري مفصّل، وتقييم كل 3 أشهر.</p></div>
+      <div class="card rv"><h3>شو بيتضمن التقرير</h3><p>الوصول، التفاعل، نمو المتابعين، أداء الإعلانات، وتوصيات الشهر الجاي.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 TERMS -->
+<section id="terms" data-title="الشروط">
+  <div class="wrap">
+    <div class="head rv"><div><small>CONTRACT TERMS</small><h2>شروط العقد</h2></div><div class="num">08</div></div>
+    <ol class="terms">
+      <li class="rv"><div><h4>المدة</h4><p><b class="durTxt">شهر واحد</b> تبدأ من [التاريخ]، وبتتجدد باتفاق الطرفين.</p></div></li>
+      <li class="rv"><div><h4>الدفع</h4><p>الدفعة الشهرية بتندفع أول كل شهر، وأول دفعة عند التوقيع.</p></div></li>
+      <li class="rv"><div><h4>ميزانية الإعلانات</h4><p>ميزانية الإعلانات الممولة منفصلة عن أتعاب شفق وبيدفعها العميل.</p></div></li>
+      <li class="rv"><div><h4>زيارات التصوير</h4><p>بتتحدد بموعد قبل [48] ساعة، والزيارة اللي بتتلغى من العميل بدون إشعار بتنحسب.</p></div></li>
+      <li class="rv"><div><h4>الملكية</h4><p>المحتوى المنشور ملك العميل، ويحق لشفق عرضه ضمن أعمالها.</p></div></li>
+      <li class="rv"><div><h4>إنهاء العقد</h4><p>بإشعار خطي قبل [30] يوم من أي طرف.</p></div></li>
+    </ol>
+    <div class="price rv" style="display:block">
+      <div class="picker" style="margin-bottom:24px"><button data-d="1" class="on">شهري</button><button data-d="3">3 أشهر</button><button data-d="6">6 أشهر</button><button data-d="12">سنوي</button></div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+        <div><span style="color:#A3A39C">السعر الشهري</span><br>
+          <s id="pOld" style="color:#77776F;font-size:22px;display:none"></s>
+          <b id="pMonth">$650</b><span style="color:#A3A39C"> / شهر</span>
+          <span id="pBadge" style="display:none;background:var(--lime);color:var(--ink);font-weight:900;border-radius:999px;padding:4px 14px;margin-inline-start:10px;font-size:15px"></span></div>
+        <div style="text-align:left"><span style="color:#A3A39C">مجموع العقد</span><br><b id="pTotal" style="font-size:34px;color:var(--paper)">$650</b><br><span id="pSave" style="color:var(--lime);font-weight:700"></span></div>
+      </div>
+      <p style="margin-top:20px;color:#C9C9C2;font-size:15px">السعر بيشمل كل البنود بنطاق العمل، وما بيشمل ميزانية الإعلانات أو الخدمات الإضافية. كل ما طالت مدة العقد بيكبر الخصم.</p>
+    </div>
+    <div class="sign rv">
+      <div><span>عن شفق ميديا</span><b>الاسم والتوقيع</b><span>التاريخ: ____ / ____ / 2026</span></div>
+      <div><span>عن <span data-f="name">[اسم العميل]</span></span><b>الاسم والتوقيع</b><span>التاريخ: ____ / ____ / 2026</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 CLOSING -->
+<section class="dark closing" id="closing" data-title="الختام">
+  <svg class="blob" style="right:-40px;top:-20px;width:520px;transform:scaleX(-1)" viewBox="0 0 430 270"><path d="M0 0 H430 C387 167 237 256 0 270 Z" fill="#C3FA4F"/></svg>
+  <div class="wrap" style="position:relative;padding-top:160px">
+    <h2 class="rv">جاهزين<br><em>نبلّش؟</em></h2>
+    <p class="lead rv" style="margin-top:20px">منجي لعندكم وين ما كنتوا. خلّينا نحوّل الخطة لمحتوى بيشتغل.</p>
+    <div class="contact rv">
+      <a href="https://instagram.com/shafq.media">@shafq.media</a>
+      <a href="https://wa.me/966563079286">+966 56 307 9286</a>
+      <a href="mailto:shafqmedia@gmail.com">shafqmedia@gmail.com</a>
+    </div>
+  </div>
+</section>
+<footer>© 2026 شفق ميديا · دمشق</footer>
+
+<script>
+const PRISTINE='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+// contract plans: phases are [name, from, to, cls, desc]
+const PLANS={
+ 1:{txt:'شهر واحد',unit:'الأسبوع',n:4,ph:[
+   ['التأسيس',1,1,'p1','دراسة الصفحة والمنافسين، اعتماد خطة الشهر، وجلسة التصوير الأولى.'],
+   ['الانطلاق',2,3,'p2','نشر منتظم: ريلز وبوستات وكاروسيل وبوست الجمعة.'],
+   ['التقييم',4,4,'p3','تقرير نهاية الشهر وتوصيات للتجديد.']]},
+ 3:{txt:'3 أشهر',unit:'الشهر',n:3,ph:[
+   ['التأسيس والانطلاق',1,1,'p1','ترتيب الصفحات، أول خطة، بداية النشر المنتظم.'],
+   ['البناء',2,2,'p2','تثبيت الأسلوب، تجربة أفكار، وحملات ممولة.'],
+   ['التقييم',3,3,'p3','تقرير ربعي كامل وخطة الفترة الجاية.']]},
+ 6:{txt:'6 أشهر',unit:'الشهر',n:6,ph:[
+   ['التأسيس',1,1,'p1','دراسة الوضع، ترتيب الهوية على السوشال، أول تصوير.'],
+   ['الانطلاق',2,3,'p2','نشر منتظم، حملات ممولة، بناء مكتبة محتوى.'],
+   ['النمو',4,5,'p2','توسيع الجمهور وتغطية المناسبات.'],
+   ['التقييم والتجديد',6,6,'p3','تقرير نصف سنوي وخطة التجديد.']]},
+ 12:{txt:'سنة كاملة',unit:'الشهر',n:12,ph:[
+   ['التأسيس',1,1,'p1','دراسة الصفحات والمنافسين، ترتيب الهوية، أول جلسة تصوير.'],
+   ['الانطلاق',2,3,'p2','نشر منتظم، أول حملات ممولة، بناء مكتبة محتوى.'],
+   ['النمو',4,8,'p2','توسيع الجمهور، أفكار جديدة، تغطية المناسبات.'],
+   ['الاستمرارية',9,12,'p3','تثبيت النتائج، تقييم سنوي، وخطة السنة الجاية.']]}
+};
+const PER_MONTH=28;
+const BASE=650; // السعر الشهري الأساسي بالدولار
+const DISC={1:0,3:.10,6:.15,12:.25};
+const $=n=>'$'+Math.round(n).toLocaleString('en'); // 8 reels + 12 posts + 4 carousel + 4 friday
+const tl=document.getElementById('tl'),cal=document.getElementById('cal');
+function setDur(d){
+  const P=PLANS[d];
+  document.querySelectorAll('.picker button').forEach(b=>b.classList.toggle('on',b.dataset.d==d));
+  document.querySelectorAll('.durTxt').forEach(e=>e.textContent=P.txt);
+  tl.innerHTML=P.ph.map((p,i)=>`<div class="tl-item anim" style="animation-delay:${i*110}ms"><div class="when">${P.unit} ${p[1]}${p[2]>p[1]?' – '+p[2]:''}</div><div class="dot"></div><div><h3>${p[0]}</h3><p>${p[4]}</p></div></div>`).join('');
+  cal.style.setProperty('--n',P.n);
+  let cells='';
+  for(let i=1;i<=P.n;i++){const ph=P.ph.find(p=>i>=p[1]&&i<=p[2]);cells+=`<div class="${ph[3]} anim" style="animation-delay:${i*50}ms"><span>${String(i).padStart(2,'0')}</span><span>${P.unit} ${i}<br><small style="font-weight:600;opacity:.8">${ph[0]}</small></span></div>`}
+  cal.innerHTML=cells;
+  document.getElementById('legend').innerHTML=[...new Map(P.ph.map(p=>[p[3],p])).values()].map(p=>`<span><i style="background:${p[3]=='p1'?'var(--ink)':p[3]=='p2'?'var(--lime)':'#E6FDB4'}"></i>${P.ph.filter(x=>x[3]==p[3]).map(x=>x[0]).join(' و')}</span>`).join('');
+  document.getElementById('calTitle').textContent=d==1?'الشهر بأسابيعه':'العقد على شريط واحد';
+  document.getElementById('totalAll').textContent=PER_MONTH*d;
+  const disc=DISC[d],m=BASE*(1-disc),full=BASE*d,tot=m*d;
+  pMonth.textContent=$(m);pTotal.textContent=$(tot);
+  pOld.style.display=pBadge.style.display=disc?'inline':'none';
+  pOld.textContent=$(BASE);pBadge.textContent='خصم '+disc*100+'%';
+  pSave.textContent=disc?'بتوفّر '+$(full-tot):'';
+  [pMonth,pTotal].forEach(e=>{e.style.animation='none';e.offsetWidth;e.style.animation='pop .5s both'});
+}
+document.querySelectorAll('.picker button').forEach(b=>b.onclick=()=>setDur(+b.dataset.d));
+setDur(1);
+
+// count-up
+const cio=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target,to=+el.dataset.to,t0=performance.now();(function f(t){const k=Math.min((t-t0)/1200,1);el.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0);cio.unobserve(el)}),{threshold:.5});
+document.querySelectorAll('.cnt').forEach(e=>cio.observe(e));
+
+
+// client setup
+const setup=document.getElementById('setup'),cf=document.getElementById('cf'),pv=document.getElementById('pv');
+let logo='',igShot='';
+document.getElementById('igIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{igShot=r.result;pvIg.innerHTML=`<img src="${igShot}">`};r.readAsDataURL(f)};
+document.getElementById('logoIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{logo=r.result;pv.innerHTML=`<img src="${logo}">`};r.readAsDataURL(f)};
+function applyClient(c){
+  const today=new Date().toLocaleDateString('ar-SY-u-nu-latn',{day:'numeric',month:'long',year:'numeric'});
+  const v={name:c.name,type:c.type,loc:c.loc,about:c.about,date:today};
+  document.querySelectorAll('[data-f]').forEach(el=>{const x=v[el.dataset.f];if(x){el.textContent=x}});
+  const hl=document.getElementById('heroLogo');
+  if(c.logo){hl.innerHTML=`<img src="${c.logo}" alt="">`;hl.style.display='grid'}else hl.style.display='none';
+  document.title='شفق ميديا · عرض '+(c.name||'');
+  const box=document.getElementById('igBox');
+  if(c.igShot||c.ig||c.fol){box.style.display='grid';
+    document.getElementById('igShot').src=c.igShot||'';document.querySelector('.phone').style.display=c.igShot?'block':'none';
+    igHandle.textContent=c.ig?(c.ig.startsWith('@')?c.ig:'@'+c.ig):'';igFol.textContent=c.fol||'—';igPosts.textContent=c.posts||'—';
+  }else box.style.display='none';
+}
+function closeSetup(){setup.classList.add('hide');scrollTo(0,0);document.querySelectorAll('.hero h1 .w').forEach(w=>{w.style.animation='none';w.offsetWidth;w.style.animation=''})}
+cf.onsubmit=e=>{e.preventDefault();const d=Object.fromEntries(new FormData(cf));d.logo=logo;d.igShot=igShot;applyClient(d);try{localStorage.setItem('shafqClient',JSON.stringify(d))}catch(_){}closeSetup()};
+document.getElementById('skip').onclick=closeSetup;
+document.getElementById('editClient').onclick=()=>setup.classList.remove('hide');
+try{const saved=JSON.parse(localStorage.getItem('shafqClient')||'null');if(saved){['name','type','loc','about','ig','fol','posts'].forEach(k=>cf[k].value=saved[k]||'');logo=saved.logo||'';if(logo)pv.innerHTML=`<img src="${logo}">`;igShot=saved.igShot||'';if(igShot)pvIg.innerHTML=`<img src="${igShot}">`}}catch(_){}
+
+// export client copy
+function toast(t){const e=document.getElementById('toast');e.textContent=t;e.style.transform='translateX(-50%)';setTimeout(()=>e.style.transform='translateX(-50%) translateY(120px)',3500)}
+let CUR=null;
+const _apply=applyClient;applyClient=function(c){CUR=c;_apply(c)};
+function buildClientHTML(c){
+  const data=JSON.stringify(c).replace(/</g,'\\u003c');
+  return PRISTINE.replace('</head>','<script>window.CLIENT='+data+';<\/script><style>#setup,#exportBtn,#editClient{display:none!important}</style></head>');
+}
+document.getElementById('exportBtn').onclick=async()=>{
+  if(!CUR||!CUR.name){toast('عبّي بيانات العميل أول');setup.classList.remove('hide');return}
+  const html=buildClientHTML(CUR),fn='Shafq-'+CUR.name.replace(/[\\/:*?"<>|\s]+/g,'-')+'.html';
+  try{const dl=await claude.use('downloads');if(!dl)throw 0;await dl.save({filename:fn,data:new Blob([html],{type:'text/html'})});toast('جاهز! ابعت الملف للعميل')}
+  catch(e){try{await navigator.clipboard.writeText(html);toast('تم نسخ كود الصفحة')}catch(_){toast('ما زبط التحميل، جرّب مرة تانية')}}
+};
+// client mode
+if(window.CLIENT){
+  applyClient(window.CLIENT);setup.remove();
+  ['exportBtn','editClient'].forEach(id=>document.getElementById(id).remove());
+}
+
+// toc + drawer
+const secs=[...document.querySelectorAll('section[data-title]')];
+const toc=document.getElementById('toc');
+secs.forEach((s,i)=>{toc.insertAdjacentHTML('beforeend',`<li><a href="#${s.id}"><span>${String(i).padStart(2,'0')}</span>${s.dataset.title}</a></li>`)});
+const dr=document.getElementById('drawer');
+document.getElementById('openMenu').onclick=()=>dr.classList.add('open');
+document.getElementById('closeMenu').onclick=()=>dr.classList.remove('open');
+toc.addEventListener('click',e=>{if(e.target.closest('a'))dr.classList.remove('open')});
+
+// reveal
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach((el,i)=>{el.style.transitionDelay=(i%4)*80+'ms';io.observe(el)});
+
+// current section + progress
+const cur=document.getElementById('cur'),prog=document.getElementById('prog');
+addEventListener('scroll',()=>{
+  const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+  let t=secs[0].dataset.title;for(const s of secs){if(s.getBoundingClientRect().top<140)t=s.dataset.title}cur.textContent=t;
+},{passive:true});
+</script>
+</body>
+</html>
